@@ -1,0 +1,8 @@
+{% extends 'hrapp/base.html' %}
+{% block namepage %}Свободные работники{% endblock namepage %}
+{% block content %}
+    {{ worker.role }}
+    {% for worker in fwl %}
+        <p>{{worker.user.username}} с ролью {{worker.role}}</p>
+    {% endfor %}
+{% endblock content %}

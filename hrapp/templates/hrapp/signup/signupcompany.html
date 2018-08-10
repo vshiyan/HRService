@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SignUpCompany</title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    {{ formCom.as_p }}
+    {{ formDep.as_p }}
+    {{ formPos.as_p }}
+    {{ formWork.as_p }}
+    <input type="submit" value="Регистрация">
+</form>
+</body>
+</html>
