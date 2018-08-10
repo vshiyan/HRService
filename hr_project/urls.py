@@ -25,4 +25,6 @@ urlpatterns = [
     path('sign_in/', hr_views.sign_in, name='signin'),
     path('sign_out/', hr_views.sign_out, name='sign_out'),
     path('free_worker/', hr_views.freelist, name='free_worker'),
+    path('worker/<int:pk>/', hr_views.workerdetale, name='worker_detale'),
+    path('company_worker/', hr_views.companylist, name='companylist'),
 ]

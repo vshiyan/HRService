@@ -84,3 +84,15 @@ def freelist(request):
     worker = Worker.objects.get(user=request.user)
     freeworkerlist = Worker.objects.filter(vakant=True)
     return render(request, 'hrapp/worklist/freelist.html', {'worker': worker, 'fwl': freeworkerlist})
+
+
+def workerdetale(request, pk):
+    worker = Worker.objects.get(pk=pk)
+    return render(request, 'hrapp/worklist/workerdetale.html', {'worker': worker})
+
+
+def companylist(request):
+    worker = Worker.objects.get(user=request.user)
+    workercompanylist = Worker.objects.filter(
+        position__departament__company=worker.position.departament.company)
+    return render(request, 'hrapp/worklist/companylist.html', {"companylist":workercompanylist})
