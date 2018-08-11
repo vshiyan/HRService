@@ -39,8 +39,16 @@ class Worker(models.Model):
         ('hrworker', 'Работник отдела кадров')
     )
     role = models.CharField(max_length=10, choices=CHOICES_ROLE)
-    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
     vakant = models.BooleanField()
 
     def __str__(self):
         return self.user.username
+
+    def lay_off(self):
+        position = Position.objects.get(pk=self.position.pk)
+        position.vakant = True
+        position.save()
+        self.vakant = True
+        self.position = None
+        self.save()

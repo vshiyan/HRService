@@ -1,0 +1,14 @@
+{% extends 'hrapp/base.html' %}
+{% block namepage %}
+    Работники предприятия
+{% endblock namepage %}
+{% block content %}
+    <ul class="list-group">
+        {% for departament in departamentlist %}
+            <li class="list-group-item">
+                <a href="{% url 'departamentdetale' pk=departament.pk %}">{{ departament.title_dep }}
+                    компании {{ departament.company.title_com }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

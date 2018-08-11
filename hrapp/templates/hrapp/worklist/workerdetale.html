@@ -3,5 +3,11 @@
     Профиль работника.
 {% endblock namepage %}
 {% block content %}
-{{ worker.user.username }}
+    {{ worker.user.username }}
+    {% if not worker.vakant %}
+        <button><a href="{% url 'lay_off' pk=worker.pk %}">Уволить</a></button>
+        <button><a href="{% url 'put_on_hold' pk=worker.pk %}">Перевести на другую должность</a></button>
+    {% else %}
+        <button><a href="{% url 'put_on_hold' pk=worker.pk %}">Назначить на должность</a></button>
+    {% endif %}
 {% endblock content %}

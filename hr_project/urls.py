@@ -27,4 +27,9 @@ urlpatterns = [
     path('free_worker/', hr_views.freelist, name='free_worker'),
     path('worker/<int:pk>/', hr_views.workerdetale, name='worker_detale'),
     path('company_worker/', hr_views.companylist, name='companylist'),
+    path('company_departament/', hr_views.departamentlist, name='departamentlist'),
+    path('departament_detale/<int:pk>/', hr_views.departamentdetale, name='departamentdetale'),
+    path('position_detale/<int:pk>/', hr_views.positiondetale, name='positiondetale'),
+    path('lay_off/<int:pk>/', hr_views.lay_off, name='lay_off'),
+    path('put_on_hold/<int:pk>/', hr_views.put_on_hold, name='put_on_hold'),
 ]

@@ -1,0 +1,12 @@
+{% extends 'hrapp/base.html' %}
+{% block namepage %}
+    Перевод на другую должность
+{% endblock namepage %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ choicesform.as_p }}
+        <button type="submit">Назначить должность работнику
+            {{ worker.user.username }}</button>
+    </form>
+{% endblock content %}

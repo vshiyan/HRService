@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from hrapp.forms import CompanyForm, DepartamentForm, PositionForm, UserForm, UserLoginForm
+from hrapp.forms import CompanyForm, DepartamentForm, PositionForm, UserForm, UserLoginForm, PositionChoicesForm
 from hrapp.models import Position, User, Worker, Departament, Company
 from django.contrib.auth import authenticate, login, logout
+from django import forms
 
 
 # Create your views here.
@@ -95,4 +96,56 @@ def companylist(request):
     worker = Worker.objects.get(user=request.user)
     workercompanylist = Worker.objects.filter(
         position__departament__company=worker.position.departament.company)
-    return render(request, 'hrapp/worklist/companylist.html', {"companylist":workercompanylist})
+    return render(request, 'hrapp/worklist/companylist.html', {"companylist": workercompanylist})
+
+
+def departamentlist(request):
+    worker = Worker.objects.get(user=request.user)
+    departamentlist = Departament.objects.filter(company=worker.position.departament.company)
+    return render(request, 'hrapp/worklist/departamentlist.html', {'departamentlist': departamentlist})
+
+
+def departamentdetale(request, pk):
+    departament = Departament.objects.get(pk=pk)
+    positionlist = Position.objects.filter(departament=departament)
+    return render(request, 'hrapp/worklist/departamentdetale.html', {'positionlist': positionlist})
+
+
+def positiondetale(request, pk):
+    position = Position.objects.get(pk=pk)
+    if position.vakant == False:
+        worker = Worker.objects.get(position=position)
+        return render(request, 'hrapp/worklist/positiondetale.html', {'worker': worker, 'position': position})
+    return render(request, 'hrapp/worklist/positiondetale.html', {'position': position})
+
+
+def lay_off(requerst, pk):
+    worker = Worker.objects.get(pk=pk)
+    worker.lay_off()
+    return render(requerst, 'hrapp/lay_off.html', {})
+
+
+def put_on_hold(request, pk):
+    if request.method == "POST":
+        worker = Worker.objects.get(pk=pk)
+        admin = Worker.objects.get(user=request.user)
+        chocesform = PositionChoicesForm(request.POST)
+        chocesform.fields['position'] = forms.ModelChoiceField(
+            Position.objects.filter(departament__company=admin.position.departament.company).filter(vakant=True)
+        )
+        worker.position = Position.objects.get(pk=chocesform.data['position'])
+        worker.vakant = False
+        worker.save()
+        position = Position.objects.get(pk=worker.position.pk)
+        position.vakant=False
+        position.save()
+        message = 'Сотруднику присвоена новая должность'
+        return redirect(home)
+    else:
+        worker = Worker.objects.get(pk=pk)
+        admin = Worker.objects.get(user=request.user)
+        chocesform = PositionChoicesForm(request.POST)
+        chocesform.fields['position'] = forms.ModelChoiceField(
+            Position.objects.filter(departament__company=admin.position.departament.company).filter(vakant=True)
+        )
+    return render(request, 'hrapp/worklist/put_on_hold.html', {'worker': worker, 'choicesform': chocesform})

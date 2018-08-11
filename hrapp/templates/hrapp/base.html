@@ -23,12 +23,24 @@
 <header>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Fixed navbar</a>
+        <a class="navbar-brand" href="{% url 'home' %}">HR Service</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="dropdown open">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Работа с кадрами
+                </button>
+                <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{% url 'free_worker' %}">Свободные рабочии</a>
+                    <a class="dropdown-item" href="{% url 'companylist' %}">Работники предприятия</a>
+                    <a class="dropdown-item" href="{% url 'departamentlist' %}">Отделы предприятия</a>
+
+                </div>
+            </div>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
@@ -40,25 +52,30 @@
                     <a class="nav-link disabled" href="#">Disabled</a>
                 </li>
             </ul>
-            <ul class="navbar-nav  text-right">
-                <li class="nav-item ">
-                    <a class="nav-link" href="#"> {{ user }} <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'sign_out' %}">Выход</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="{% url 'signin' %}">Войти</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav  text-right text-center">
-                <li class="nav-item">
-                    <a class="nav-link " href="{% url 'signup_worker' %}">Регистрация <br>работника</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="{% url 'signup_company' %}">Регистрация <br> компании</a>
-                </li>
-            </ul>
+            {% if  user.is_authenticated %}
+                <ul class="navbar-nav  text-right">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#"> {{ user }} <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'sign_out' %}">Выход</a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="navbar-nav  text-right">
+                    <li class="nav-item">
+                        <a class="nav-link " href="{% url 'signin' %}">Войти</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav  text-right text-center">
+                    <li class="nav-item">
+                        <a class="nav-link " href="{% url 'signup_worker' %}">Регистрация <br>работника</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="{% url 'signup_company' %}">Регистрация <br> компании</a>
+                    </li>
+                </ul>
+            {% endif %}
         </div>
     </nav>
 </header>
@@ -67,22 +84,8 @@
 <main role="main" class="container jumbotron jumbotron-fluid"><br>
     <h2 class="text-center">{% block namepage %}{% endblock namepage %}</h2>
     <div class="d-flex bd-highlight ">
-        <div class="p-2 w-25 h100 flex-shrink-1 bd-highlight bg-success ">
-            <ul>
-                <li>
-                    <a class="nav-link text-dark" href="{% url 'free_worker' %}">Свободные рабочии</a>
-                </li>
-                <li>
-                     <a class="nav-link text-dark" href="{% url 'companylist' %}">Работники предприятия</a>
-                </li>
-                <li>ITEM ATOM</li>
-                <li>ITEM ATOM</li>
-                <li>ITEM ATOM</li>
-                <li>ITEM ATOM</li>
-                <li>ITEM ATOM</li>
-            </ul>
-        </div>
-        <div class="p-2 w-75 bd-highlight ">
+
+        <div class="p-2 w-75 align-content-center container bd-highlight ">
             {% block content %}
             {% endblock content %}
         </div>

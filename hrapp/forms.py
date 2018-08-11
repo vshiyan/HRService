@@ -46,3 +46,7 @@ class UserLoginForm(forms.Form):
     username = forms.CharField(label=(u'Имя пользователя'), max_length=30,
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label=(u'Пароль'), widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+
+class PositionChoicesForm(forms.Form):
+    position = forms.ModelChoiceField(Position.objects.all())

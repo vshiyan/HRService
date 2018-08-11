@@ -1,0 +1,14 @@
+{% extends 'hrapp/base.html' %}
+{% block namepage %}Детали должности{% endblock namepage %}
+{% block content %}
+    {{ position.title_pos }}<br>
+
+    {% if worker %}
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="{% url 'worker_detale' pk=worker.pk %}">{{ worker.user.username }} с
+                    ролью {{ worker.role }}</a>
+            </li>
+        </ul>
+    {% endif %}
+{% endblock content %}

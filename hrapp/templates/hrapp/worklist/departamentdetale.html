@@ -1,0 +1,12 @@
+{% extends 'hrapp/base.html' %}
+{% block namepage %}Свободные работники{% endblock namepage %}
+{% block content %}
+    <ul class="list-group">
+        {% for position in positionlist %}
+            <li class="list-group-item">
+                <a href="{% url 'positiondetale' pk=position.pk %}">{{ position.title_pos }} из отдела
+                    {{ position.departament.title_dep }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
