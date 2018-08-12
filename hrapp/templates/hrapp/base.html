@@ -38,6 +38,8 @@
                     <a class="dropdown-item" href="{% url 'free_worker' %}">Свободные рабочии</a>
                     <a class="dropdown-item" href="{% url 'companylist' %}">Работники предприятия</a>
                     <a class="dropdown-item" href="{% url 'departamentlist' %}">Отделы предприятия</a>
+                    <a class="dropdown-item" href="{% url 'adddepartament' %}">Добавить отдел</a>
+                    <a class="dropdown-item" href="{% url 'addposition' %}">Добавить должность</a>
 
                 </div>
             </div>
@@ -81,7 +83,7 @@
 </header>
 
 <!-- Begin page content -->
-<main role="main" class="container jumbotron jumbotron-fluid"><br>
+<main role="main" class="container jumbotron jumbotron-fluid " style="height: 100vh"><br>
     <h2 class="text-center">{% block namepage %}{% endblock namepage %}</h2>
     <div class="d-flex bd-highlight ">
 

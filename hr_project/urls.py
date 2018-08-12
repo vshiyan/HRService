@@ -32,4 +32,6 @@ urlpatterns = [
     path('position_detale/<int:pk>/', hr_views.positiondetale, name='positiondetale'),
     path('lay_off/<int:pk>/', hr_views.lay_off, name='lay_off'),
     path('put_on_hold/<int:pk>/', hr_views.put_on_hold, name='put_on_hold'),
+    path('adddepartament/', hr_views.adddepartament, name='adddepartament'),
+    path('addposition/', hr_views.AddPosition, name='addposition'),
 ]

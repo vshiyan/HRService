@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from hrapp.forms import CompanyForm, DepartamentForm, PositionForm, UserForm, UserLoginForm, PositionChoicesForm
+from hrapp.forms import CompanyForm, DepartamentForm, PositionForm \
+    , UserForm, UserLoginForm, PositionChoicesForm, AddDepartament, AddPositionForm
 from hrapp.models import Position, User, Worker, Departament, Company
 from django.contrib.auth import authenticate, login, logout
 from django import forms
@@ -137,7 +138,7 @@ def put_on_hold(request, pk):
         worker.vakant = False
         worker.save()
         position = Position.objects.get(pk=worker.position.pk)
-        position.vakant=False
+        position.vakant = False
         position.save()
         message = 'Сотруднику присвоена новая должность'
         return redirect(home)
@@ -149,3 +150,35 @@ def put_on_hold(request, pk):
             Position.objects.filter(departament__company=admin.position.departament.company).filter(vakant=True)
         )
     return render(request, 'hrapp/worklist/put_on_hold.html', {'worker': worker, 'choicesform': chocesform})
+
+
+def adddepartament(request):
+    form = AddDepartament(request.POST)
+    message = ''
+    if request.method == "POST":
+        if form.is_valid():
+            worker = Worker.objects.get(user=request.user)
+            company = Company.objects.get(pk=worker.position.departament.company.pk)
+            Departament.objects.create(title_dep=form.data['title'], company=company)
+            message = 'Отдел добавлен'
+            form = AddDepartament()
+    return render(request, 'hrapp/add/adddepartament.html', {'form': form, 'message': message})
+
+
+def AddPosition(request):
+    form = AddPositionForm(request.POST)
+    message = ''
+    worker = Worker.objects.get(user=request.user)
+    form.fields['departament'] = forms.ModelChoiceField(
+        Departament.objects.filter(company=worker.position.departament.company)
+    )
+    if request.method == "POST":
+        if form.is_valid():
+            message = 'Должность добавлена'
+            Position.objects.create(
+                title_pos=form.data['title'],
+                departament=Departament.objects.get(pk=form.data['departament']),
+                vakant=True)
+            form = AddPositionForm()
+            return render(request, 'hrapp/add/addposition.html', {'form': form, 'message': message})
+    return render(request, 'hrapp/add/addposition.html', {'form': form, 'message': message})

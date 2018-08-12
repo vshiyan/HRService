@@ -1,0 +1,12 @@
+{% extends 'hrapp/base.html' %}
+{% block namepage %}
+    Добавить должность
+{% endblock namepage %}
+{% block content %}
+    <h4>{{ message }}</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    <button type="submit">Добавить должность</button>
+    </form>
+{% endblock content %}

@@ -50,3 +50,14 @@ class UserLoginForm(forms.Form):
 
 class PositionChoicesForm(forms.Form):
     position = forms.ModelChoiceField(Position.objects.all())
+
+
+class AddDepartament(forms.Form):
+    title = forms.CharField(label=(u'Название отдела'), max_length=100,
+                            widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+
+class AddPositionForm(forms.Form):
+    title = forms.CharField(label=(u'Название должности'), max_length=100,
+                            widget=forms.TextInput(attrs={'class': 'form-control'}))
+    departament = forms.ModelChoiceField(Departament.objects.all())
