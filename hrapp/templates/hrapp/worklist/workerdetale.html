@@ -3,11 +3,19 @@
     Профиль работника.
 {% endblock namepage %}
 {% block content %}
-    {{ worker.user.username }}
+    <p>{{ worker.user.username }}</p>
+    <p>{{ worker.user.first_name }}</p>
+    <p>{{ worker.user.last_name }}</p>
+    <p>{{ worker.get_role_display }}</p>
+    <p>{{ worker.position }}</p>
+    <p>{{ worker.position.departament }}</p>
+    <p>{{ worker.position.departament.company }}</p>
+
     {% if not worker.vakant %}
-        <button><a href="{% url 'lay_off' pk=worker.pk %}">Уволить</a></button>
-        <button><a href="{% url 'put_on_hold' pk=worker.pk %}">Перевести на другую должность</a></button>
+        <button class='form-control btn-success mb-1' onClick='location.href="{% url 'lay_off' pk=worker.pk %}"'>Уволить</button>
+        <button class='form-control btn-success mb-1' onClick='location.href="{% url 'put_on_hold' pk=worker.pk %}"' >Перевести на другую должность</button>
+        <button class='form-control btn-success mb-1' onClick='location.href="{% url 'rolechoices' pk=worker.pk %}"'>Изменить роль работника</button>
     {% else %}
-        <button><a href="{% url 'put_on_hold' pk=worker.pk %}">Назначить на должность</a></button>
+        <button class='form-control btn-success mb-1' onClick='location.href="{% url 'put_on_hold' pk=worker.pk %}"'>Назначить на должность</button>
     {% endif %}
 {% endblock content %}

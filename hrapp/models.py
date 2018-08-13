@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Company(models.Model):
     """Model describes company"""
-    title_com = models.CharField(max_length=50)
+    title_com = models.CharField(max_length=100, verbose_name='Название компании')
 
     def __str__(self):
         return self.title_com
@@ -13,8 +13,8 @@ class Company(models.Model):
 
 class Departament(models.Model):
     """Model describes deportament"""
-    title_dep = models.CharField(max_length=50)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    title_dep = models.CharField(max_length=100, verbose_name='Название отдела')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name='Название компании')
 
     def __str__(self):
         return self.title_dep
@@ -22,8 +22,8 @@ class Departament(models.Model):
 
 class Position(models.Model):
     """Model describes position"""
-    title_pos = models.CharField(max_length=50)
-    departament = models.ForeignKey(Departament, on_delete=models.CASCADE)
+    title_pos = models.CharField(max_length=100, verbose_name='Название должности')
+    departament = models.ForeignKey(Departament, on_delete=models.CASCADE, verbose_name='Название отдела')
     vakant = models.BooleanField()
 
     def __str__(self):
@@ -38,8 +38,8 @@ class Worker(models.Model):
         ('worker', 'Наемный рабочий'),
         ('hrworker', 'Работник отдела кадров')
     )
-    role = models.CharField(max_length=10, choices=CHOICES_ROLE)
-    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
+    role = models.CharField(max_length=10, choices=CHOICES_ROLE, verbose_name='Роль работника')
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Название должности')
     vakant = models.BooleanField()
 
     def __str__(self):

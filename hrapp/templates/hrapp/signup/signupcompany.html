@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SignUpCompany</title>
-</head>
-<body>
-<form method="post">
-    {% csrf_token %}
-    {{ formCom.as_p }}
-    {{ formDep.as_p }}
-    {{ formPos.as_p }}
-    {{ formWork.as_p }}
-    <input type="submit" value="Регистрация">
-</form>
-</body>
-</html>
+{% extends 'hrapp/base.html' %}
+{% block namepage %}Регистрация компании и главного администратора компании{% endblock namepage %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ formCom.as_p }}
+        {{ formDep.as_p }}
+        {{ formPos.as_p }}
+        {{ formWork.as_p }}
+        <input type="submit" value="Регистрация" class='form-control btn-success'>
+    </form>
+{% endblock content %}

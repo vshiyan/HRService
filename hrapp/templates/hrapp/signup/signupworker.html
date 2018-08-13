@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SignupWorker</title>
-</head>
-<body>
+{% extends 'hrapp/base.html' %}
+{% block namepage %}Регистрация работника{% endblock namepage %}
+{% block content %}
 <form method="post">
     {% csrf_token %}
     {{ formWork.as_p }}
-    <input type="submit" value="Регистрация">
+    <input type="submit" value="Регистрация работника" class='form-control btn-success'>
 </form>
-</body>
-</html>
+{% endblock content %}

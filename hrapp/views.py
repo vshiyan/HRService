@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from hrapp.forms import CompanyForm, DepartamentForm, PositionForm \
-    , UserForm, UserLoginForm, PositionChoicesForm, AddDepartament, AddPositionForm
+    , UserForm, UserLoginForm, PositionChoicesForm, AddDepartament, AddPositionForm, RoleForm
 from hrapp.models import Position, User, Worker, Departament, Company
 from django.contrib.auth import authenticate, login, logout
 from django import forms
@@ -134,14 +134,24 @@ def put_on_hold(request, pk):
         chocesform.fields['position'] = forms.ModelChoiceField(
             Position.objects.filter(departament__company=admin.position.departament.company).filter(vakant=True)
         )
-        worker.position = Position.objects.get(pk=chocesform.data['position'])
-        worker.vakant = False
-        worker.save()
-        position = Position.objects.get(pk=worker.position.pk)
-        position.vakant = False
-        position.save()
-        message = 'Сотруднику присвоена новая должность'
-        return redirect(home)
+        if worker.vakant:
+            worker.position = Position.objects.get(pk=chocesform.data['position'])
+            worker.vakant = False
+            worker.save()
+            position = Position.objects.get(pk=worker.position.pk)
+            position.vakant = False
+            position.save()
+        else:
+            oldposition = Position.objects.get(pk=worker.position.pk)
+            oldposition.vakant = True
+            oldposition.save()
+            worker.position = Position.objects.get(pk=chocesform.data['position'])
+            worker.vakant = False
+            worker.save()
+            position = Position.objects.get(pk=worker.position.pk)
+            position.vakant = False
+            position.save()
+        return redirect('worker_detale', pk=pk)
     else:
         worker = Worker.objects.get(pk=pk)
         admin = Worker.objects.get(user=request.user)
@@ -162,6 +172,7 @@ def adddepartament(request):
             Departament.objects.create(title_dep=form.data['title'], company=company)
             message = 'Отдел добавлен'
             form = AddDepartament()
+            return redirect('adddepartament')
     return render(request, 'hrapp/add/adddepartament.html', {'form': form, 'message': message})
 
 
@@ -170,7 +181,9 @@ def AddPosition(request):
     message = ''
     worker = Worker.objects.get(user=request.user)
     form.fields['departament'] = forms.ModelChoiceField(
-        Departament.objects.filter(company=worker.position.departament.company)
+        Departament.objects.filter(company=worker.position.departament.company, ),
+        label='Отдел',
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
     if request.method == "POST":
         if form.is_valid():
@@ -182,3 +195,14 @@ def AddPosition(request):
             form = AddPositionForm()
             return render(request, 'hrapp/add/addposition.html', {'form': form, 'message': message})
     return render(request, 'hrapp/add/addposition.html', {'form': form, 'message': message})
+
+
+def rolechoices(request, pk):
+    if request.method == "POST":
+        formchoices = RoleForm(request.POST)
+        worker = Worker.objects.get(pk=pk)
+        worker.role = formchoices.data['role']
+        worker.save()
+        return redirect('worker_detale', pk=pk)
+    formchoices = RoleForm(request.POST)
+    return render(request, 'hrapp/add/rolechoices.html', {'formchoices': formchoices})

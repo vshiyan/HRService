@@ -29,20 +29,22 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="dropdown open">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Работа с кадрами
-                </button>
-                <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{% url 'free_worker' %}">Свободные рабочии</a>
-                    <a class="dropdown-item" href="{% url 'companylist' %}">Работники предприятия</a>
-                    <a class="dropdown-item" href="{% url 'departamentlist' %}">Отделы предприятия</a>
-                    <a class="dropdown-item" href="{% url 'adddepartament' %}">Добавить отдел</a>
-                    <a class="dropdown-item" href="{% url 'addposition' %}">Добавить должность</a>
-
+            {% if role == 'admin' or role == 'hrworker' %}
+                <div class="dropdown open">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Работа с кадрами
+                    </button>
+                    <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{% url 'free_worker' %}">Свободные рабочии</a>
+                        <a class="dropdown-item" href="{% url 'companylist' %}">Работники предприятия</a>
+                        <a class="dropdown-item" href="{% url 'departamentlist' %}">Отделы предприятия</a>
+                        <a class="dropdown-item" href="{% url 'adddepartament' %}">Добавить отдел</a>
+                        <a class="dropdown-item" href="{% url 'addposition' %}">Добавить должность</a>
+                        <a class="dropdown-item" href="{% url 'signup_worker'  %}">Добавить работника</a>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
@@ -83,7 +85,7 @@
 </header>
 
 <!-- Begin page content -->
-<main role="main" class="container jumbotron jumbotron-fluid " style="height: 100vh"><br>
+<main role="main" class="container jumbotron jumbotron-fluid " style="min-height: 100vh"><br>
     <h2 class="text-center">{% block namepage %}{% endblock namepage %}</h2>
     <div class="d-flex bd-highlight ">
 
@@ -96,7 +98,7 @@
 
 <footer class="footer">
     <div class="container">
-        <span class="text-muted">Place sticky footer content here.</span>
+        <span class="text-muted">Мой профиль <a href="https://github.com/vshiyan">https://github.com/vshiyan</a></span>
     </div>
 </footer>
 

@@ -7,7 +7,7 @@
         <ul class="list-group">
             <li class="list-group-item">
                 <a href="{% url 'worker_detale' pk=worker.pk %}">{{ worker.user.username }} с
-                    ролью {{ worker.role }}</a>
+                    ролью {{ worker.get_role_display }}</a>
             </li>
         </ul>
     {% endif %}

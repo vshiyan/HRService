@@ -1,6 +1,10 @@
-<form method="post">
-    <h2>Введите ваши данные для входа.</h2>
+{% extends 'hrapp/base.html' %}
+{% block namepage %}Вход{% endblock namepage %}
+{% block content %}
+<form method="post" >
+    <h2 class="text-center">Введите ваши данные для входа.</h2>
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Войти">
+    <input type="submit" value="Войти" class='form-control btn-success'>
 </form>
+{% endblock content %}
