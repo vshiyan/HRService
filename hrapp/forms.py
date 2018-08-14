@@ -70,3 +70,14 @@ class RoleForm(forms.ModelForm):
     class Meta:
         model = Worker
         fields = ('role',)
+
+
+class ProfileForm(forms.Form):
+    firstname = forms.CharField(label=(u'ИМЯ'), max_length=100,
+                                widget=forms.TextInput(attrs={'class': 'form-control'}))
+    soname = forms.CharField(label=(u'ФАМИЛИЯ'), max_length=100,
+                             widget=forms.TextInput(attrs={'class': 'form-control'}))
+    education = forms.CharField(label=(u'ОБРАЗОВАНИЕ'), max_length=400,
+                                widget=forms.TextInput(attrs={'class': 'form-control'}))
+    about = forms.CharField(label=(u'НАВЫКИ И УМЕНИЯ'), max_length=1200,
+                            widget=forms.Textarea(attrs={'class': 'form-control'}))

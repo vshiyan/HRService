@@ -39,8 +39,11 @@ class Worker(models.Model):
         ('hrworker', 'Работник отдела кадров')
     )
     role = models.CharField(max_length=10, choices=CHOICES_ROLE, verbose_name='Роль работника')
-    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Название должности')
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True,
+                                 verbose_name='Название должности')
     vakant = models.BooleanField()
+    about = models.CharField(max_length=1200, verbose_name='О себе', blank=True)
+    education = models.CharField(max_length=400, blank=True, verbose_name='Образование')
 
     def __str__(self):
         return self.user.username

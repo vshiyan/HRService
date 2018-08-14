@@ -6,8 +6,8 @@
     <ul class="list-group">
         {% for worker in companylist %}
             <li class="list-group-item">
-                <a href="{% url 'worker_detale' pk=worker.pk %}">{{ worker.user.username }} с
-                    ролью {{ worker.role }}</a>
+                <a href="{% url 'worker_detale' pk=worker.pk %}">{{ worker.user.username }} на долности
+                    {{ worker.position.title_pos }}</a>
             </li>
         {% endfor %}
     </ul>

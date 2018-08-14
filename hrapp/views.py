@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from hrapp.forms import CompanyForm, DepartamentForm, PositionForm \
-    , UserForm, UserLoginForm, PositionChoicesForm, AddDepartament, AddPositionForm, RoleForm
+    , UserForm, UserLoginForm, PositionChoicesForm, AddDepartament, AddPositionForm, RoleForm, ProfileForm
 from hrapp.models import Position, User, Worker, Departament, Company
 from django.contrib.auth import authenticate, login, logout
 from django import forms
@@ -206,3 +206,48 @@ def rolechoices(request, pk):
         return redirect('worker_detale', pk=pk)
     formchoices = RoleForm(request.POST)
     return render(request, 'hrapp/add/rolechoices.html', {'formchoices': formchoices})
+
+
+def profile(request, pk):
+    user = User.objects.get(pk=pk)
+    worker = Worker.objects.get(user=user)
+    if request.method == "POST":
+        formprofile = ProfileForm(request.POST)
+        formprofile.fields['firstname'] = forms.CharField(label=(u'ИМЯ'), max_length=100,
+                                                          widget=forms.TextInput(
+                                                              attrs={'class': 'form-control',
+                                                                     'value': user.first_name}))
+        formprofile.fields['soname'] = forms.CharField(label=(u'ФАМИЛИЯ'), max_length=100,
+                                                       widget=forms.TextInput(
+                                                           attrs={'class': 'form-control', 'value': user.last_name}))
+        formprofile.fields['education'] = forms.CharField(label=(u'ОБРАЗОВАНИЕ'), max_length=400,
+                                                          widget=forms.TextInput(
+                                                              attrs={'class': 'form-control',
+                                                                     'value': worker.education}))
+        formprofile.fields['about'] = forms.CharField(label=(u'НАВЫКИ И УМЕНИЯ'), max_length=1200,
+                                                      widget=forms.Textarea(
+                                                          attrs={'class': 'form-control'}), )
+        user.first_name = formprofile.data['firstname']
+        user.last_name = formprofile.data['soname']
+        user.save()
+        worker.education = formprofile.data['education']
+        worker.about = formprofile.data['about']
+        worker.save()
+    else:
+        formprofile = ProfileForm(initial={'about': worker.about})
+        formprofile.fields['firstname'] = forms.CharField(label=(u'ИМЯ'), max_length=100,
+                                                          widget=forms.TextInput(
+                                                              attrs={'class': 'form-control',
+                                                                     'value': user.first_name}))
+        formprofile.fields['soname'] = forms.CharField(label=(u'ФАМИЛИЯ'), max_length=100,
+                                                       widget=forms.TextInput(
+                                                           attrs={'class': 'form-control', 'value': user.last_name}))
+        formprofile.fields['education'] = forms.CharField(label=(u'ОБРАЗОВАНИЕ'), max_length=400,
+                                                          widget=forms.TextInput(
+                                                              attrs={'class': 'form-control',
+                                                                     'value': worker.education}))
+        formprofile.fields['about'] = forms.CharField(label=(u'НАВЫКИ И УМЕНИЯ'), max_length=1200,
+                                                      widget=forms.Textarea(
+                                                          attrs={'class': 'form-control'}))
+
+    return render(request, 'hrapp/profile.html', {'formprofile': formprofile})

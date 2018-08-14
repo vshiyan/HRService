@@ -35,4 +35,5 @@ urlpatterns = [
     path('adddepartament/', hr_views.adddepartament, name='adddepartament'),
     path('addposition/', hr_views.AddPosition, name='addposition'),
     path('rolechoices/<int:pk>', hr_views.rolechoices, name='rolechoices'),
+    path('profile/<int:pk>', hr_views.profile, name='profile'),
 ]

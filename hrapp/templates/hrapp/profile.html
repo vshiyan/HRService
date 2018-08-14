@@ -1,0 +1,10 @@
+{% extends 'hrapp/base.html' %}
+{% block namepage %}Профиль
+{% endblock namepage %}
+{% block content %}
+    <form method="post">
+    {% csrf_token %}
+    {{ formprofile.as_p }}
+    <input type="submit" value="Изменить профиль" class="btn btn-success form-control">
+    </form>
+{% endblock content %}
