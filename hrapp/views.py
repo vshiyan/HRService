@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from hrapp.forms import CompanyForm, DepartamentForm, PositionForm \
-    , UserForm, UserLoginForm, PositionChoicesForm, AddDepartament, AddPositionForm, RoleForm, ProfileForm
+    , UserForm, UserLoginForm, PositionChoicesForm, AddDepartament, AddPositionForm, RoleForm, ProfileForm, SearchForm
 from hrapp.models import Position, User, Worker, Departament, Company
 from django.contrib.auth import authenticate, login, logout
 from django import forms
@@ -251,3 +251,14 @@ def profile(request, pk):
                                                           attrs={'class': 'form-control'}))
 
     return render(request, 'hrapp/profile.html', {'formprofile': formprofile})
+
+
+def search(request):
+    searchform = SearchForm(request.POST)
+    if request.method == "POST":
+        workers = Worker.objects.filter(user__last_name__contains=searchform.data['search']) | Worker.objects.filter(
+            user__first_name__contains=searchform.data['search']) | Worker.objects.filter(
+            position__title_pos__contains=searchform.data['search']) | Worker.objects.filter(
+            user__username__contains=searchform.data['search'])
+        return render(request, 'hrapp/search.html', {'searchform': searchform, 'workers': workers})
+    return render(request, 'hrapp/search.html', {'searchform': searchform})

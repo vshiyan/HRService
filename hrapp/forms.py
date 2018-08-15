@@ -81,3 +81,9 @@ class ProfileForm(forms.Form):
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
     about = forms.CharField(label=(u'НАВЫКИ И УМЕНИЯ'), max_length=1200,
                             widget=forms.Textarea(attrs={'class': 'form-control'}))
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(label=(u''),max_length=100,
+                             widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Поиск'}),
+                             empty_value=' ')

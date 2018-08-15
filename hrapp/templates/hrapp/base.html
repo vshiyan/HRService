@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="{% static 'favicon.ico' %}">
 
-    <title>Sticky Footer Navbar Template for Bootstrap</title>
+    <title>HR Service</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
@@ -41,7 +41,7 @@
                         <a class="dropdown-item" href="{% url 'departamentlist' %}">Отделы предприятия</a>
                         <a class="dropdown-item" href="{% url 'adddepartament' %}">Добавить отдел</a>
                         <a class="dropdown-item" href="{% url 'addposition' %}">Добавить должность</a>
-                        <a class="dropdown-item" href="{% url 'signup_worker'  %}">Добавить работника</a>
+                        <a class="dropdown-item" href="{% url 'signup_worker' %}">Добавить работника</a>
                     </div>
                 </div>
             {% endif %}
@@ -79,6 +79,11 @@
                         <a class="nav-link " href="{% url 'signup_company' %}">Регистрация <br> компании</a>
                     </li>
                 </ul>
+            {% endif %}
+            {% if role == 'admin' or role == 'hrworker' %}
+                <button class="btn btn-outline-success my-2 my-sm-0"
+                        onClick='location.href="{% url 'search' %}"'>Поиск
+                </button>
             {% endif %}
         </div>
     </nav>

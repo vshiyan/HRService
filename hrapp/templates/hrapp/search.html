@@ -1,10 +1,13 @@
 {% extends 'hrapp/base.html' %}
-{% block namepage %}
-    Работники предприятия
-{% endblock namepage %}
+{% block namepage %}Поиск{% endblock namepage %}
 {% block content %}
+<form method="post">
+{% csrf_token %}
+{{ searchform.as_p }}
+<button type="submit" class="btn btn-success form-control">ПОИСК</button>
+</form>
     <ul class="list-group">
-        {% for worker in companylist %}
+        {% for worker in workers %}
             <li class="list-group-item">
                 <a href="{% url 'worker_detale' pk=worker.pk %}">{{ worker.user.username }} на должности
                     {{ worker.position.title_pos }}</a>
